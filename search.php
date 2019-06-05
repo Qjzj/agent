@@ -30,7 +30,7 @@ if ($act == "query") {
             $res = mysql_query($sql);
             if (mysql_num_rows($res) > 0) {
                 $arr = mysql_fetch_array($res);
-                var_dump($arr);
+//                var_dump($arr);
                 $agentid = $arr["agentid"];
                 $product = $arr["product"];
                 $quyu = $arr["quyu"];
@@ -146,8 +146,12 @@ if ($results == 1) {
   <title>查询结果</title>
 
   <style>
-    .imgbox {
-      width: 700px;
+    .center {
+      margin: 20px auto;
+      width: 1200px;
+    }
+    canvas {
+
     }
 
     @media screen and (max-width: 800px) {
@@ -160,11 +164,50 @@ if ($results == 1) {
   </style>
 </head>
 
-<body><p align="center">
-  <img class="imgbox"
-       src="zs.php?&act=<?php echo $_GET[act]; ?>&keyword=<?php echo $_GET[keyword]; ?>&submit=查询&search=no&yzm_status=0"
-       alt="myImage"/>
-</p></body>
+<body>
+<input type="hidden" id="agentid" value="<?php echo $arr['agentid'] ?>">
+<input type="hidden" id="name" value="<?php echo $arr['name'] ?>">
+<input type="hidden" id="product" value="<?php echo $arr['product'] ?>">
+<input type="hidden" id="addtime" value="<?php echo $arr['addtime'] ?>">
+<input type="hidden" id="jietime" value="<?php echo $arr['jietime'] ?>">
+
+<div class="center">
+  <canvas id="canvas" width="1200" height="847">当前浏览器版本过低,请升级浏览器</canvas>
+</div>
+
+<script>
+  let addentid = document.querySelector('#agentid').value;
+  let name = document.querySelector('#name').value;
+  let product = document.querySelector('#product').value;
+  let addtime = document.querySelector('#addtime').value;
+  let jietime = document.querySelector('#jietime').value;
+
+  let cv = document.querySelector('#canvas');
+  let ctx = cv.getContext('2d');
+  let bgImg = new Image();
+  bgImg.src = 'zs.jpg';
+  bgImg.onload = function () {
+    ctx.drawImage(bgImg, 0, 0, 1200, 857);
+    ctx.font = '24px "Microsoft yahei"';
+    ctx.fillStyle = '#000';
+    ctx.fillText(name, 720, 442);
+    ctx.fillText(product, 670, 485);
+    ctx.fillStyle = '#666';
+    ctx.fillText(FormatDate(addtime)+ '-' + FormatDate(jietime), 520, 605);
+    ctx.fillStyle = '#333';
+    ctx.fillText(addentid, 576, 635);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(FormatDate(addtime), 145, 800);
+  }
+
+  function FormatDate(date) {
+    let reg = /(\d+)-(\d+)-(\d+)/g;
+    date.match(reg);
+    return RegExp.$1 + '.' + RegExp.$2 + '.' + RegExp.$3
+  }
+
+</script>
+</body>
   </html><?php }
 
 

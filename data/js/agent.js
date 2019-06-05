@@ -24,7 +24,6 @@ var http  = createXMLHTTP();
 //发送查询的请求
 function GetQuery()
 {
-	debugger
 		var keyword     = document.getElementById("keyword").value;
 		var show     = document.getElementById("show").value;
 		var yzm_status  = document.getElementById("yzm_status").value;		
